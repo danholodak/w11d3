@@ -1,35 +1,41 @@
 import './ClimateStats.css';
 import { useClimate } from '../../context/ClimateContext';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 function ClimateStats() {
-const {humidity, temperature} = useClimate();
-const [temp, setTemp] = useState(50)
-const [humid,setHumid] = useState(40)
+const {humidity, temperature,temp,setTemp,humid,setHumid} = useClimate();
+// const [temp, setTemp] = useState(50)
+// const [humid,setHumid] = useState(40)
 
  useEffect(() => {
   
     if (temp < temperature){
       
-      setTimeout(()=>{setTemp(temp+1)}, 1000)
+      let increaseTemp = setTimeout(()=>{setTemp(temp+1)}, 1000)
+      return ()=>{clearTimeout(increaseTemp)}
     
     }else if(temp > temperature){
-      setTimeout(()=>{setTemp(temp-1)}, 1000)
+     let decreaseTemp = setTimeout(()=>{setTemp(temp-1)}, 1000)
+      return ()=>{clearTimeout(decreaseTemp)}
   }
 
-}, [temperature, temp]);
+}, [temperature, temp,setTemp]);
 
 useEffect(() => {
   
   if (humid < humidity){
     
-    setTimeout(()=>{setHumid(humid+1)}, 1000)
+    let increaseHumid = setTimeout(()=>{setHumid(humid+1)}, 1000)
+    return ()=>{clearTimeout(increaseHumid)}
   
   }else if(humid > humidity){
-    setTimeout(()=>{setHumid(humid-1)}, 1000)
-}
+    let decreaseHumid = setTimeout(()=>{setHumid(humid-1)}, 1000)
+    return ()=>{clearTimeout(decreaseHumid)}
+  }
+  
 
-}, [humidity, humid]);
+
+}, [humidity, humid,setHumid]);
 
   return (
     <div className="climate-stats">
